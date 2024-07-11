@@ -1,4 +1,4 @@
-package net.ezra.ui.students
+package net.ezra.ui.therapist2
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -17,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,16 +37,15 @@ import com.google.firebase.firestore.firestore
 import androidx.lifecycle.ViewModel
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
-import net.ezra.R
 import net.ezra.navigation.ROUTE_HOME
 import net.ezra.navigation.ROUTE_VIEW_STUDENTS
 
 
-data class Student(
+data class Therapist(
 
     val imageUrl: String? = "",
-    val studentName: String? = "",
-    val studentClass: String? = "",
+    val therapistName: String? = "",
+    val therapistClass: String? = "",
     val phone: String? = "",
     val location: String? = ""
 
@@ -58,10 +56,10 @@ data class Student(
 class FirestoreViewModel : ViewModel() {
 
     private val firestore = Firebase.firestore
-    private val itemsCollection = firestore.collection("Students")
+    private val itemsCollection = firestore.collection("Therapists")
 
-    private val _items = MutableLiveData<List<Student>>()
-    val items: LiveData<List<Student>> = _items
+    private val _items = MutableLiveData<List<Therapist>>()
+    val items: LiveData<List<Therapist>> = _items
 
     init {
         fetchItems()
@@ -70,13 +68,13 @@ class FirestoreViewModel : ViewModel() {
     fun fetchItems() {
         itemsCollection.addSnapshotListener { snapshot, error ->
             if (error != null) {
-                Log.e("FirestoreViewModel", "Error fetching students", error)
+                Log.e("FirestoreViewModel", "Error fetch therapists", error)
                 return@addSnapshotListener
             }
 
-            val itemList = mutableListOf<Student>()
+            val itemList = mutableListOf<Therapist>()
             snapshot?.documents?.forEach { document ->
-                val item = document.toObject(Student::class.java)
+                val item = document.toObject(Therapist::class.java)
                 item?.let {
                     itemList.add(it)
                 }
@@ -88,7 +86,7 @@ class FirestoreViewModel : ViewModel() {
 
 
 @Composable
-fun StudentList(items: List<Student>) {
+fun TherapistList(items: List<Therapist>) {
 
     Column {
 
@@ -113,14 +111,14 @@ fun StudentList(items: List<Student>) {
                                loading = {
                                    CircularProgressIndicator()
                                },
-                               contentDescription = item.studentName,
+                               contentDescription = item.therapistName,
                                modifier = Modifier
                                    .clip(RoundedCornerShape(10))
                                    .size(150.dp)
 
                            )
 
-                        item.studentName?.let { Text(text = it) }
+                        item.therapistName?.let { Text(text = it) }
                         item.phone?.let { Text(text = it) }
 
 
@@ -153,7 +151,7 @@ fun Students(navController: NavHostController, viewModel: FirestoreViewModel) {
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = "Students")
+                    Text(text = "Therapists")
                 },
                 navigationIcon = {
                     IconButton(onClick = {
@@ -180,7 +178,7 @@ fun Students(navController: NavHostController, viewModel: FirestoreViewModel) {
                     }
                 },
                 colors = topAppBarColors(
-        containerColor = Color(0xff0FB06A),
+        containerColor = Color(0xff512E5F),
 
 
         titleContentColor = Color.White,
@@ -193,11 +191,11 @@ fun Students(navController: NavHostController, viewModel: FirestoreViewModel) {
                 modifier = Modifier
                     .padding(it)
                     .fillMaxSize()
-                    .background(Color(0xff9AEDC9)),
+                    .background(Color(0xffF8BBD0)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                StudentList(items)
+                TherapistList(items)
 
 
             }

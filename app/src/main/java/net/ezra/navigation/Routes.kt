@@ -12,6 +12,13 @@ const val ROUTE_REGISTER = "register"
 const val ROUTE_DASHBOARD = "dashboard"
 const val ROUTE_ADD_PRODUCT = "add_product"
 const val ROUTE_VIEW_PROD = "view_prod"
+const val ROUTE_THERAPISTS1SCREEN = "therapists1screen"
+const val ROUTE_LISTENERS1SCREEN = "listeners1screen"
+const val ROUTE_COMMONMENTALH = "commonmentalh"
+const val ROUTE_HOMEMH = "homemh"
+const val ROUTE_LINKS = "links"
+const val ROUTE_SELFTEST = "selftest"
+
 
 
 
