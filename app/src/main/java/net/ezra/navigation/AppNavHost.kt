@@ -15,12 +15,18 @@ import net.ezra.ui.auth.SignUpScreen
 import net.ezra.ui.dashboard.DashboardScreen
 //import net.ezra.ui.auth.SignupScreen
 import net.ezra.ui.home.HomeScreen
+import net.ezra.ui.listeners.Listeners1Screen
 import net.ezra.ui.products.AddProductScreen
 import net.ezra.ui.products.ProductDetailScreen
 import net.ezra.ui.products.ProductListScreen
-import net.ezra.ui.students.AddStudents
-import net.ezra.ui.students.Search
-import net.ezra.ui.students.Students
+import net.ezra.ui.selfassessment.CommonScreen
+import net.ezra.ui.selfassessment.HomemhScreen
+import net.ezra.ui.selfassessment.LinksScreen
+import net.ezra.ui.selfassessment.SelftestScreen
+import net.ezra.ui.therapist2.AddStudents
+import net.ezra.ui.therapist2.Search
+import net.ezra.ui.therapist2.Students
+
 
 @Composable
 fun AppNavHost(
@@ -35,7 +41,7 @@ fun AppNavHost(
     BackHandler {
         navController.popBackStack()
 
-        }
+    }
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -62,7 +68,7 @@ fun AppNavHost(
         }
 
         composable(ROUTE_VIEW_STUDENTS) {
-           Students(navController = navController, viewModel = viewModel() )
+            Students(navController = navController, viewModel = viewModel() )
         }
 
         composable(ROUTE_SEARCH) {
@@ -74,9 +80,9 @@ fun AppNavHost(
         }
 
         composable(ROUTE_REGISTER) {
-           SignUpScreen(navController = navController) {
+            SignUpScreen(navController = navController) {
 
-           }
+            }
         }
 
         composable(ROUTE_LOGIN) {
@@ -86,10 +92,25 @@ fun AppNavHost(
         composable(ROUTE_ADD_PRODUCT) {
             AddProductScreen(navController = navController){}
         }
-
+        composable(ROUTE_LISTENERS1SCREEN) {
+            Listeners1Screen(navController = navController)
+        }
         composable(ROUTE_VIEW_PROD) {
             ProductListScreen(navController = navController, products = listOf() )
         }
+        composable(ROUTE_SELFTEST) {
+            SelftestScreen(navController = navController)
+        }
+        composable(ROUTE_HOMEMH) {
+            HomemhScreen(navController = navController)
+        }
+        composable(ROUTE_LINKS) {
+            LinksScreen(navController = navController)
+        }
+        composable(ROUTE_COMMONMENTALH) {
+            CommonScreen(navController = navController)
+        }
+
 
 
 

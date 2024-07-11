@@ -3,6 +3,7 @@ package net.ezra.ui.auth
 
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -16,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import net.ezra.navigation.ROUTE_DASHBOARD
+import net.ezra.navigation.ROUTE_HOME
 import net.ezra.navigation.ROUTE_LOGIN
 import net.ezra.navigation.ROUTE_REGISTER
 
@@ -34,19 +36,20 @@ fun LoginScreen(navController: NavController, onLoginSuccess: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .background(Color(0xff512E5F)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
 
         AuthHeader()
-        Text("Login", style = MaterialTheme.typography.h4)
+        Text("Login to the app", style = MaterialTheme.typography.h4)
+
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Email") },
+            label = { Text("Enter Email") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -54,7 +57,7 @@ fun LoginScreen(navController: NavController, onLoginSuccess: () -> Unit) {
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Password") },
+            label = { Text("Enter Password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
@@ -67,7 +70,7 @@ fun LoginScreen(navController: NavController, onLoginSuccess: () -> Unit) {
 
 
             Button(
-                colors = ButtonDefaults.buttonColors(Color(0xff0FB06A)),
+                colors = ButtonDefaults.buttonColors(Color(0xffF8BBD0 )),
                 onClick = {
                     if (email.isBlank() || password.isBlank()) {
                         error = "Please fill in all fields"
@@ -86,7 +89,7 @@ fun LoginScreen(navController: NavController, onLoginSuccess: () -> Unit) {
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Login")
+                Text("Login in here")
             }
 
             androidx.compose.material3.Text(
@@ -97,11 +100,22 @@ fun LoginScreen(navController: NavController, onLoginSuccess: () -> Unit) {
                             popUpTo(ROUTE_LOGIN) { inclusive = true }
                         }
                     },
-                text = "go to register",
+                text = "Register",
                 textAlign = TextAlign.Center,
                 color = androidx.compose.material3.MaterialTheme.colorScheme.onSurface
             )
+            Text(
+                modifier = Modifier
 
+                    .clickable {
+                        navController.navigate(ROUTE_HOME) {
+                            popUpTo(ROUTE_LOGIN) { inclusive = true }
+                        }
+                    },
+                text = "Go back to home page",
+                textAlign = TextAlign.Center,
+                color = androidx.compose.material3.MaterialTheme.colorScheme.onSurface
+            )
 
 
         }

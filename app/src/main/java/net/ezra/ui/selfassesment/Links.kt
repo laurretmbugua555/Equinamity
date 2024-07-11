@@ -1,4 +1,4 @@
-package net.ezra.ui.listeners
+package net.ezra.ui.selfassessment
 
 
 
@@ -13,35 +13,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import net.ezra.navigation.ROUTE_ABOUT
 import net.ezra.navigation.ROUTE_HOME
 import net.ezra.R
-
+import net.ezra.ui.theme.defaultTextStyle
 
 
 @Composable
-fun Listeners1Screen(navController: NavHostController,
+fun LinksScreen(navController: NavHostController) {
 
-) {
 
-    Column(
+
+
+    Column (
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xffF8BBD0)),
-        verticalArrangement = Arrangement.Center,
+            .background(Color(0xffD98880))
+            .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+
+
+    ){
         Image(
             painter = painterResource(id = R.drawable.img_20),
             contentDescription = null,
@@ -49,33 +49,21 @@ fun Listeners1Screen(navController: NavHostController,
                 .size(200.dp)
 
         )
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "Our app gives you access to links where you can reach out to qualified free listeners who are ready to give you a listening ear when experiencing mental or emotional instability, you can also register as a listener",
+        Spacer(modifier = Modifier.height(50.dp))
 
-            fontSize = 20.sp,
-            color = Color.Black,
-            fontFamily = FontFamily.Monospace,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
+Text(
+    modifier = Modifier,
+    textAlign = TextAlign.Center,
+    text = "Here are some links to Web pages that will give you access to more information about Mental health")
+        Spacer(modifier = Modifier.height(50.dp))
 
-
-
-            )
-        Text(text ="1. 7 Cups (https://www.7cups.com/)" )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(text = "2. Buddy Help (https://buddyhelp.org/)")
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(text = "3. Truth Share (https://truthshare.com.ng/free-online-therapist/)")
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(text = "4. By My Side (https://bymyside.support/)")
+        Text("1. Harvard Health (https://www.health.harvard.edu/topics/mental-health/all) ")
 
         Spacer(modifier = Modifier.height(50.dp))
+        
+        Text(text = "2. SAMSHA (https://www.samhsa.gov/mental-health)")
+
+        Spacer(modifier = Modifier.height(100.dp))
 
         Text(
             modifier = Modifier
@@ -87,20 +75,16 @@ fun Listeners1Screen(navController: NavHostController,
                 },
             text = "Home",
             textAlign = TextAlign.Center,
+            textDecoration = TextDecoration.Underline,
             color = MaterialTheme.colorScheme.onSurface
         )
     }
-
-
-
-
-
-
 
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
-fun HomeScreenPreviewLight() {
-    Listeners1Screen(rememberNavController())
+fun LinksScreen() {
+    LinksScreen(rememberNavController())
 }
+

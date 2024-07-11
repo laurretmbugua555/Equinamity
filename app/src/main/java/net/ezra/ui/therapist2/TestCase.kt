@@ -1,4 +1,4 @@
-package net.ezra.ui.students
+package net.ezra.ui.therapist2
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -22,8 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import java.lang.reflect.Modifier
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -52,7 +50,7 @@ fun Test(){
                 modifier = androidx.compose.ui.Modifier
 
                     .fillMaxSize()
-                    .background(Color(0xff8d6e63)),
+                    .background(Color(0xffF8BBD0 )),
             ) {
 
 

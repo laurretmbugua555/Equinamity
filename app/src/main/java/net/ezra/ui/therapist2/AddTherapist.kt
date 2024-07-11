@@ -1,6 +1,6 @@
 @file:Suppress("NAME_SHADOWING")
 
-package net.ezra.ui.students
+package net.ezra.ui.therapist2
 
 
 import android.annotation.SuppressLint
@@ -8,8 +8,6 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.net.Uri
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -17,24 +15,19 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,10 +41,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
@@ -80,7 +71,7 @@ fun AddStudents(navController: NavHostController) {
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = stringResource(id = R.string.add_stud))
+                    Text(text = stringResource(id = R.string.add_therapist))
                 },
                 navigationIcon = {
                     IconButton(onClick = {
@@ -97,7 +88,7 @@ fun AddStudents(navController: NavHostController) {
                 },
 
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xff0FB06A),
+                    containerColor = Color(0xffF8BBD0 ),
                     titleContentColor = Color.White,
 
                     )
@@ -106,7 +97,7 @@ fun AddStudents(navController: NavHostController) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xff9AEDC9)),
+                    .background(Color(0xff512E5F)),
                 verticalArrangement = Arrangement.Center,
             ) {
                 LazyColumn {
@@ -137,15 +128,15 @@ fun AddStudents(navController: NavHostController) {
                                 photoUri = uri
                             }
 
-                            var studentName by rememberSaveable {
+                            var therapistName by rememberSaveable {
                                 mutableStateOf("")
                             }
 
-                            var studentClass by rememberSaveable {
+                            var therapistSpecialization by rememberSaveable {
                                 mutableStateOf("")
                             }
 
-                            var studentEmail by rememberSaveable {
+                            var therapistEmail by rememberSaveable {
                                 mutableStateOf("")
                             }
 
@@ -160,8 +151,8 @@ fun AddStudents(navController: NavHostController) {
 
 
                             OutlinedTextField(
-                                value = studentName,
-                                onValueChange = { studentName = it },
+                                value = therapistName,
+                                onValueChange = { therapistName = it },
                                 label = { Text(text = "Name") },
                                 modifier = Modifier
                                     .padding(16.dp)
@@ -187,8 +178,8 @@ fun AddStudents(navController: NavHostController) {
                             )
 
                             OutlinedTextField(
-                                value = studentEmail,
-                                onValueChange = { studentEmail = it },
+                                value = therapistEmail,
+                                onValueChange = { therapistEmail = it },
                                 label = { Text(text = "Email") },
                                 modifier = Modifier
                                     .padding(16.dp)
@@ -196,8 +187,8 @@ fun AddStudents(navController: NavHostController) {
                             )
 
                             OutlinedTextField(
-                                value = studentClass,
-                                onValueChange = { studentClass= it },
+                                value = therapistSpecialization,
+                                onValueChange = { therapistSpecialization= it },
                                 label = { Text(text = "Class") },
                                 modifier = Modifier
                                     .padding(16.dp)
@@ -259,31 +250,31 @@ fun AddStudents(navController: NavHostController) {
 
                                         uploadImageToFirebaseStorage(
                                             it,
-                                            studentName,
-                                            studentClass,
-                                            studentEmail,
+                                            therapistName,
+                                            therapistSpecialization,
+                                            therapistEmail,
                                             location,
                                             phone,
                                             context
 
                                         )
 
-                                        studentName = ""
-                                        studentClass = ""
-                                        studentEmail = ""
+                                        therapistName = ""
+                                        therapistSpecialization = ""
+                                        therapistEmail = ""
                                         location = ""
                                         phone = ""
                                         photoUri = null
 
                                     }
-                                } else if (studentClass == ""){
+                                } else if (therapistSpecialization == ""){
 
-                                    Toast.makeText(context, "Please enter class", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, "Please enter specialization", Toast.LENGTH_SHORT).show()
                                 }
-                                else if (studentEmail == ""){
+                                else if (therapistEmail == ""){
                                     Toast.makeText(context, "Please enter email", Toast.LENGTH_SHORT).show()
                                 }
-                                else if(studentName == ""){
+                                else if(therapistName == ""){
                                     Toast.makeText(context, "Please enter name", Toast.LENGTH_SHORT).show()
                                 }
 
@@ -325,9 +316,9 @@ fun AddStudents(navController: NavHostController) {
 
 fun uploadImageToFirebaseStorage(
     imageUri: Uri,
-    studentName: String,
-    studentClass: String,
-    studentEmail: String,
+    therapistName: String,
+    therapistSpecialization: String,
+    therapistEmail: String,
     location: String,
     phone: String,
     context: Context
@@ -349,9 +340,9 @@ fun uploadImageToFirebaseStorage(
             val downloadUri = task.result
             saveToFirestore(
                 downloadUri.toString(),
-                studentName,
-                studentClass,
-                studentEmail,
+                therapistName,
+                therapistSpecialization,
+                therapistEmail,
                 location,
                 phone,
                 context,
@@ -381,9 +372,9 @@ fun uploadImageToFirebaseStorage(
 
 fun saveToFirestore(
     imageUrl: String,
-    studentName: String,
-    studentClass: String,
-    studentEmail: String,
+    therapistName: String,
+    therapistSpecialization: String,
+    therapistEmail: String,
     location: String,
     phone: String,
     context: Context,
@@ -396,9 +387,9 @@ fun saveToFirestore(
     val db = Firebase.firestore
     val imageInfo = hashMapOf(
         "imageUrl" to imageUrl,
-        "studentName" to studentName,
-        "studentClass" to studentClass,
-        "studentEmail" to studentEmail,
+        "therapistName" to therapistName,
+        "therapistSpecialization" to therapistSpecialization,
+        "therapistEmail" to therapistEmail,
         "location" to location,
         "phone" to phone
 
@@ -407,7 +398,7 @@ fun saveToFirestore(
     )
 
 
-    db.collection("Students")
+    db.collection("Therapists")
         .add(imageInfo)
         .addOnSuccessListener { documentReference ->
 
@@ -420,7 +411,7 @@ fun saveToFirestore(
                 .setPositiveButton("OK") { _, _ ->
                     // Optional: Add actions when OK is clicked
                 }
-                .setIcon(R.drawable.logo)
+                .setIcon(R.drawable.logo1)
                 .setCancelable(false)
 
             val alertDialog = dialogBuilder.create()

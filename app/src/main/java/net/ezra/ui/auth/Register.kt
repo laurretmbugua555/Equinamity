@@ -1,6 +1,7 @@
 package net.ezra.ui.auth
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
+import net.ezra.navigation.ROUTE_HOME
 import net.ezra.navigation.ROUTE_LOGIN
 import net.ezra.navigation.ROUTE_REGISTER
 
@@ -32,10 +34,11 @@ fun SignUpScreen(navController: NavController, onSignUpSuccess: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .background(Color(0xff512E5F)),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
+        verticalArrangement = Arrangement.Center,
+
+        ) {
 
         AuthHeader()
 
@@ -54,7 +57,7 @@ fun SignUpScreen(navController: NavController, onSignUpSuccess: () -> Unit) {
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Password") },
+            label = { Text("Enter Password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
@@ -63,7 +66,7 @@ fun SignUpScreen(navController: NavController, onSignUpSuccess: () -> Unit) {
         OutlinedTextField(
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
-            label = { Text("Confirm Password") },
+            label = { Text("Confirm your Password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
@@ -73,13 +76,13 @@ fun SignUpScreen(navController: NavController, onSignUpSuccess: () -> Unit) {
             CircularProgressIndicator(modifier = Modifier.size(48.dp))
         } else {
             Button(
-                colors = ButtonDefaults.buttonColors(Color(0xff0FB06A)),
+                colors = ButtonDefaults.buttonColors(Color(0xffF8BBD0)),
                 onClick = {
                     if (email.isBlank()){
-                            error = "Email is required"
-                        } else if (password.isBlank()){
+                        error = "Email is required"
+                    } else if (password.isBlank()){
                         error = "Password is required"
-                        } else if(confirmPassword.isBlank()) {
+                    } else if(confirmPassword.isBlank()) {
                         error = "Password Confirmation required"
                     } else if (password != confirmPassword) {
                         error = "Passwords do not match"
@@ -87,7 +90,7 @@ fun SignUpScreen(navController: NavController, onSignUpSuccess: () -> Unit) {
                         isLoading = true
                         signUp(email, password, {
                             isLoading = false
-                            Toast.makeText(context, "Sign-up successful!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Sign-up is successful!", Toast.LENGTH_SHORT).show()
                             onSignUpSuccess()
                         }) { errorMessage ->
                             isLoading = false
@@ -97,7 +100,7 @@ fun SignUpScreen(navController: NavController, onSignUpSuccess: () -> Unit) {
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Sign Up")
+                Text("Sign Up here")
             }
 
 
@@ -109,11 +112,22 @@ fun SignUpScreen(navController: NavController, onSignUpSuccess: () -> Unit) {
                             popUpTo(ROUTE_REGISTER) { inclusive = true }
                         }
                     },
-                text = "go to login",
+                text = "Go to login form",
                 textAlign = TextAlign.Center,
                 color = androidx.compose.material3.MaterialTheme.colorScheme.onSurface
             )
+            Text(
+                modifier = Modifier
 
+                    .clickable {
+                        navController.navigate(ROUTE_HOME) {
+                            popUpTo(ROUTE_REGISTER) { inclusive = true }
+                        }
+                    },
+                text = "Go back to home page",
+                textAlign = TextAlign.Center,
+                color = androidx.compose.material3.MaterialTheme.colorScheme.onSurface
+            )
         }
 
         error?.let {

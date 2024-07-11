@@ -18,9 +18,11 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,6 +51,9 @@ import com.google.firebase.firestore.firestore
 import net.ezra.navigation.ROUTE_ADD_STUDENTS
 import net.ezra.navigation.ROUTE_DASHBOARD
 import net.ezra.navigation.ROUTE_HOME
+import net.ezra.navigation.ROUTE_SEARCH
+import net.ezra.navigation.ROUTE_THERAPISTS1SCREEN
+import net.ezra.navigation.ROUTE_VIEW_STUDENTS
 
 
 private var progressDialog: ProgressDialog? = null
@@ -99,7 +104,7 @@ fun DashboardScreen(navController: NavHostController)  {
     }
 
     LaunchedEffect(Unit) {
-        firestores.collection("Students")
+        firestores.collection("Therapists")
             .get()
             .addOnSuccessListener { result ->
                 studentCount = result.size()
@@ -113,26 +118,31 @@ fun DashboardScreen(navController: NavHostController)  {
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = "Dashboard", color = Color.White, fontSize = 30.sp)
+                    Text(text = "Your Information", color = Color(0xff512E5F ), fontSize = 30.sp)
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xff0FB06A),
-                    titleContentColor = Color.White,
+                    containerColor = Color(0xffF8BBD0 ),
+                    titleContentColor = Color(0xffF8BBD0),
                 ),
                 navigationIcon = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = {
+                        navController.navigate(ROUTE_HOME){
+                            popUpTo(ROUTE_DASHBOARD) { inclusive = true }
+                        }
+
+                    }) {
                         Icon(Icons.Filled.ArrowBack, "backIcon",tint = Color.White)
                     }
                 },
 
 
 
-            )
+                )
         }, content = {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xff9AEDC9)),
+                    .background(Color(0xff512E5F)),
 //                verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
 
@@ -140,46 +150,69 @@ fun DashboardScreen(navController: NavHostController)  {
 
 
 //                            Dashboard starts here
+Column {
+    val dashboardItems = listOf(
+        DashboardItemData(
+            title ="Home",
+            icon = Icons.Default.Home,
+            badgeCount = 0,
+            onClick = {
+                navController.navigate(ROUTE_HOME) {
+                    popUpTo(ROUTE_HOME) { inclusive = true }
+                }
+                // Navigate to profile screen
+            }
+        ),
+        DashboardItemData(
+            title = "Register",
+            icon = Icons.Default.Person,
+            badgeCount = 0,
+            onClick = {
+                navController.navigate(ROUTE_ADD_STUDENTS) {
+                    popUpTo(ROUTE_DASHBOARD) { inclusive = true }
+                }
+                // Navigate to settings screen
+            }
+        ),
+        DashboardItemData(
+            title = "Therapist List",
+            icon = Icons.Default.Person,
+            badgeCount = 0,
+            onClick = {
+                navController.navigate(ROUTE_VIEW_STUDENTS) {
+                    popUpTo(ROUTE_DASHBOARD) { inclusive = true }
+                }
+                // Navigate to messages screen
+            }
+        ),
 
-                            val dashboardItems = listOf(
-                                DashboardItemData(
-                                    title = "Profile",
-                                    icon = Icons.Default.AccountCircle,
-                                    badgeCount = 0,
-                                    onClick = {
-                                        // Navigate to profile screen
-                                    }
-                                ),
-                                DashboardItemData(
-                                    title = "Settings",
-                                    icon = Icons.Default.Settings,
-                                    badgeCount = 3,
-                                    onClick = {
-                                        // Navigate to settings screen
-                                    }
-                                ),
-                                DashboardItemData(
-                                    title = "Students",
-                                    icon = Icons.Default.Person,
-                                    badgeCount = 4,
-                                    onClick = {
-                                        // Navigate to messages screen
-                                    }
-                                ),
-                                // Add more dashboard items as needed
-                            )
+        DashboardItemData(
+            title = "Search",
+            icon = Icons.Default.Search,
+            badgeCount = 0,
+            onClick = {
+                navController.navigate(ROUTE_SEARCH) {
+                    popUpTo(ROUTE_DASHBOARD) { inclusive = true }
+                }
+                // Navigate to messages screen
+            }
+        ),
+
+        // Add more dashboard items as needed
+    )
 
 
 
-                            LazyVerticalGrid(
-                                columns = GridCells.Fixed(2),
-                                modifier = Modifier.padding(16.dp)
-                            ) {
-                                items(dashboardItems) { item ->
-                                    DashboardItem(item)
-                                }
-                            }
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = Modifier.padding(16.dp)
+    ) {
+        items(dashboardItems) { item ->
+            DashboardItem(item)
+        }
+    }
 
+}
 
 
 
@@ -216,7 +249,7 @@ fun DashboardItem(item: DashboardItemData) {
             .padding(8.dp),
         shape = RoundedCornerShape(8.dp),
         elevation = 8.dp,
-        backgroundColor = Color.White,
+        backgroundColor = Color(0xffEF9A9A),
         onClick = item.onClick
     ) {
         Row(
@@ -251,7 +284,7 @@ fun Badge(count: Int) {
             .padding(start = 8.dp)
             .size(20.dp)
             .clip(CircleShape)
-            .background(Color.Red),
+            .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
         Text(
